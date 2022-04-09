@@ -15,13 +15,13 @@ export const registerUser = async (user: any) => {
 }
 
 export const login = async (user: any) => {
-    const { email, password } = user;
-    const findUserInDb = await User.findOne({ where:{ email, password }});
+    const { id, email, password } = user;
+    const findUserInDb = await User.findOne({ where:{ id, email, password }});
 
     if (findUserInDb === null) {
         throw new Error('User not Registered');
     } else {
-        const token = jwt.sign(user, SECRET, {
+        const token = jwt.sign(findUserInDb, SECRET, {
             expiresIn: '3d',
             algorithm: 'HS256',
         });

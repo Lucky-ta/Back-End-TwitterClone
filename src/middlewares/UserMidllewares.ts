@@ -34,6 +34,8 @@ const nameValidation = (req: Request, res: Response, next: NextFunction) => {
     if (typeof name !== 'string') return res.status(402).json(errors.NAMETYPEERROR);
     if (name.length < 3) return res.status(400).json(errors.NAMELENGTHERROR);
 
+    next();
+
 }  
 
 export default { emailValidation, passwordValidation, nameValidation};

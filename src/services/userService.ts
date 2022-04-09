@@ -1,4 +1,6 @@
 const { User } = require('../../models');
+import jwt from 'jsonwebtoken';
+import SECRET  from '../../varConfigs';
 
 export const registerUser = async (user: any) => {
     const { email } = user;
@@ -9,5 +11,17 @@ export const registerUser = async (user: any) => {
     } else {
         const newUser = await User.create(user);
         return newUser;
+    }
+}
+
+export const login = async (user: any) => {
+    const { email, password } = user;
+    const findUserInDb = await User.findOne({ where:{ email, password }});
+
+    if (findUserInDb === null) {
+        throw new Error('User not Registered');
+    } else {
+        const token = jwt.sign(user, SECRET);
+        return token;
     }
 }

@@ -16,5 +16,24 @@ const emailValidation = (req: Request, res: Response, next: NextFunction) => {
     next();
 }
 
+const passwordValidation = (req: Request, res: Response, next: NextFunction) => {
+    const { password } = req.body;
 
-export default emailValidation;
+    if (!password) return res.status(402).json(errors.PASSWORDREQUIREDERROR);
+    if (typeof password !== 'string') return res.status(402).json(errors.PASSWORDTYPEERROR);
+    if (password.length < 6) return res.status(400).json(errors.PASSWORDLENGTHERROR);
+
+    next();
+}
+
+
+const nameValidation = (req: Request, res: Response, next: NextFunction) => {
+    const { name } = req.body;
+
+    if (!name)  return res.status(402).json(errors.NAMEREQUIREDERROR);
+    if (typeof name !== 'string') return res.status(402).json(errors.NAMETYPEERROR);
+    if (name.length < 3) return res.status(400).json(errors.NAMELENGTHERROR);
+
+}  
+
+export default { emailValidation, passwordValidation, nameValidation};

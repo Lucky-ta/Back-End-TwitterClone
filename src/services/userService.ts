@@ -21,7 +21,10 @@ export const login = async (user: any) => {
     if (findUserInDb === null) {
         throw new Error('User not Registered');
     } else {
-        const token = jwt.sign(user, SECRET);
+        const token = jwt.sign(user, SECRET, {
+            expiresIn: '3d',
+            algorithm: 'HS256',
+        });
         return token;
     }
 }

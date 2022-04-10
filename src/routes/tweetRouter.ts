@@ -6,6 +6,8 @@ const tweetRouter = Router();
 
 tweetRouter.post('/',
 TweetMidllewares.tokenValidation,
- tweetController.addPost)
+ tweetController.addPost);
+
+tweetRouter.delete('/:id', tweetController.excludePost);
 
 export { tweetRouter };

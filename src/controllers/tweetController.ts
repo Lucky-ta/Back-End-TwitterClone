@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { postTweet } from "../services/tweetService.";
+import { destroyTweet, postTweet } from "../services/tweetService.";
 
 class TweetController {
     addPost = async (req: Request, res: Response) => {
@@ -8,6 +8,17 @@ class TweetController {
             const user = req.data;
             const result = await postTweet(user, tweet);
             return res.status(201).json(result);
+        } catch (e: any) {
+            return res.status(500).json(e.message);
+        }
+    }
+
+    excludePost = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const parsedId = Number(id);
+            await destroyTweet(parsedId);
+            return res.status(200).end();
         } catch (e: any) {
             return res.status(500).json(e.message);
         }

@@ -1,7 +1,6 @@
 import errors from '../errors/userErros';
 import { NextFunction, Request, Response } from "express";
 
-
 const emailValidation = (req: Request, res: Response, next: NextFunction) => {
     const r = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const { email } = req.body;
@@ -25,7 +24,6 @@ const passwordValidation = (req: Request, res: Response, next: NextFunction) => 
 
     next();
 }
-
 
 const nameValidation = (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;

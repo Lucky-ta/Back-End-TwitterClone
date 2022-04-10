@@ -1,4 +1,5 @@
 import { Router } from "express";
+import userControllers from "../controllers/userControllers";
 import UserController from "../controllers/userControllers";
 import middlewares from "../middlewares/UserMidllewares";
 
@@ -14,5 +15,7 @@ userRouter.post('/login',
 middlewares.emailValidation,
 middlewares.passwordValidation,
 UserController.loginUser);
+
+userRouter.delete('/:id', userControllers.excludeUser);
 
 export { userRouter };

@@ -28,3 +28,7 @@ export const login = async (user: any) => {
         return token;
     }
 }
+
+export const excludeUser = async (userId: number) => {
+    await User.destroy({ where: {id: userId} });
+}

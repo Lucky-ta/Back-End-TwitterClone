@@ -1,11 +1,15 @@
 FROM node:alpine
 
+ENV PORT=3000
+
 WORKDIR /app
 
-COPY package.json .
+COPY package*json ./
 
 RUN npm install
 
-COPY . .
+COPY . ./
+
+EXPOSE 3000
 
 CMD ["ts-node", "src/server.ts"]

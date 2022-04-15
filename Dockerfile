@@ -2,10 +2,12 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm install
 
 COPY . ./
 
-CMD ["ts-node", "src/server.ts"]
+EXPOSE 3000
+
+CMD ["npm", "start"]

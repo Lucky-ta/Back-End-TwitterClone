@@ -1,6 +1,6 @@
 const { User } = require('../../models');
 import jwt from 'jsonwebtoken';
-import SECRET  from '../../varConfigs';
+const SECRET = process.env.SECRET;
 
 export const registerUser = async (user: any) => {
     const { email } = user;
@@ -21,7 +21,7 @@ export const login = async (user: any) => {
     if (findUserInDb === null) {
         throw new Error('User not Registered');
     } else {
-        const token = jwt.sign(findUserInDb.dataValues, SECRET, {
+        const token = jwt.sign(findUserInDb.dataValues, SECRET || '', {
             expiresIn: '3d',
             algorithm: 'HS256',
         });

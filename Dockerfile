@@ -10,6 +10,4 @@ COPY . ./
 
 EXPOSE 3000
 
-RUN tsc
-
 CMD ["npm", "start"]

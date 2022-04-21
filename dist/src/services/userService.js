@@ -24,7 +24,7 @@ const login = async (user, res) => {
     const { email, password } = user;
     const findUserInDb = await User.findOne({ where: { email, password } });
     if (findUserInDb === null) {
-        res.status(402).json(userErros_1.default.EMAILALREADYEXIST);
+        res.status(402).json(userErros_1.default.USERNOTEXISTS);
     }
     else {
         const token = jsonwebtoken_1.default.sign(findUserInDb.dataValues, SECRET || '', {

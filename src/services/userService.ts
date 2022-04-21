@@ -21,7 +21,7 @@ export const login = async (user: any, res: Response) => {
     const findUserInDb = await User.findOne({ where:{ email, password }});
 
     if (findUserInDb === null) {
-        res.status(402).json(errors.EMAILALREADYEXIST)
+        res.status(402).json(errors.USERNOTEXISTS)
     } else {
         const token = jwt.sign(findUserInDb.dataValues, SECRET || '', {
             expiresIn: '3d',

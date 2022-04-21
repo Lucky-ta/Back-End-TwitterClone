@@ -8,11 +8,11 @@ const { User } = require('../../models');
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET = process.env.SECRET;
 const userErros_1 = __importDefault(require("../errors/userErros"));
-const registerUser = async (user) => {
+const registerUser = async (user, res) => {
     const { email } = user;
     const findByEmail = await User.findOne({ where: { email } });
     if (findByEmail !== null) {
-        throw userErros_1.default.EMAILALREADYEXIST;
+        res.status(402).json(userErros_1.default.EMAILALREADYEXIST);
     }
     else {
         const newUser = await User.create(user);
@@ -20,11 +20,11 @@ const registerUser = async (user) => {
     }
 };
 exports.registerUser = registerUser;
-const login = async (user) => {
+const login = async (user, res) => {
     const { email, password } = user;
     const findUserInDb = await User.findOne({ where: { email, password } });
     if (findUserInDb === null) {
-        throw userErros_1.default.USERNOTEXISTS;
+        res.status(402).json(userErros_1.default.EMAILALREADYEXIST);
     }
     else {
         const token = jsonwebtoken_1.default.sign(findUserInDb.dataValues, SECRET || '', {

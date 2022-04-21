@@ -6,7 +6,7 @@ class UserController {
         this.registerNewUser = async (req, res) => {
             try {
                 const user = req.body;
-                const result = await (0, userService_1.registerUser)(user);
+                const result = await (0, userService_1.registerUser)(user, res);
                 return res.status(201).json(result);
             }
             catch (e) {
@@ -16,7 +16,7 @@ class UserController {
         this.loginUser = async (req, res) => {
             try {
                 const user = req.body;
-                const result = await (0, userService_1.login)(user);
+                const result = await (0, userService_1.login)(user, res);
                 return res.status(200).json(result);
             }
             catch (e) {

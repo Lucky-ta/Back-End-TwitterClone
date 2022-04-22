@@ -2,32 +2,44 @@ const { User } = require('../../models');
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 const SECRET = process.env.SECRET;
+import { compare, hash } from 'bcrypt';
 import errors from '../errors/userErros'
 
 export const registerUser = async (user: any, res: Response) => {
-    const { email } = user;
+    const { email, name, password } = user;
     const findByEmail = await User.findOne({ where: {email} });
 
     if (findByEmail !== null) {
         res.status(402).json(errors.EMAILALREADYEXIST)
     } else {
-        const newUser = await User.create(user);
-        return newUser;
+        const cryptPassword = await hash(password, 8);
+        await User.create({
+            name,
+            email,
+            password: cryptPassword,
+        });
+        return { message: 'Cadastrado com sucesso!' }
     }
 }
 
 export const login = async (user: any, res: Response) => {
     const { email, password } = user;
-    const findUserInDb = await User.findOne({ where:{ email, password }});
+    const findUserInDb = await User.findOne({ where:{ email }});
+    const passwordValidation = await compare(password, findUserInDb.dataValues.password );
 
-    if (findUserInDb === null) {
+    const {password: passDb, ...userWithouPassword } = findUserInDb.dataValues;
+
+    if (!passwordValidation) {
         res.status(402).json(errors.USERNOTEXISTS)
     } else {
-        const token = jwt.sign(findUserInDb.dataValues, SECRET || '', {
+        const token = jwt.sign(userWithouPassword, SECRET || '', {
             expiresIn: '3d',
             algorithm: 'HS256',
         });
-        return token;
+        return {
+                name: findUserInDb.name,
+                token
+            }
     }
 }
 

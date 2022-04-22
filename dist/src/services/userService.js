@@ -10,13 +10,13 @@ const SECRET = process.env.SECRET;
 const userErros_1 = __importDefault(require("../errors/userErros"));
 const registerUser = async (user, res) => {
     const { email } = user;
-    const findByEmail = await User.findOne({ where: { email } });
+    const findByEmail = await User.findOne({ where: { email }, attributes: { exclude: ['password'] } });
     if (findByEmail !== null) {
         res.status(402).json(userErros_1.default.EMAILALREADYEXIST);
     }
     else {
-        const newUser = await User.create(user);
-        return newUser;
+        await User.create(user);
+        return findByEmail;
     }
 };
 exports.registerUser = registerUser;
@@ -31,7 +31,10 @@ const login = async (user, res) => {
             expiresIn: '3d',
             algorithm: 'HS256',
         });
-        return token;
+        return {
+            name: findUserInDb.dataValues.name,
+            token
+        };
     }
 };
 exports.login = login;

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const SECRET = process.env.SECRET;
+const { SECRET } = process.env;
 const tokenValidation = async (req, res, next) => {
     const { authorization: token } = req.headers;
     if (!token)

@@ -12,7 +12,7 @@ export const registerUser = async (user: any, res: Response) => {
   const findByEmail = await User.findOne({ where: { email } });
 
   if (findByEmail !== null) {
-    res.status(402).json(errors.EMAILALREADYEXIST);
+    return res.status(402).json(errors.EMAILALREADYEXIST);
   } else {
     const cryptPassword = await hash(password, 8);
     await User.create({
@@ -31,8 +31,8 @@ export const login = async (user: any, res: Response) => {
 
   const { password: passDb, ...userWithouPassword } = findUserInDb.dataValues;
 
-  if (!passwordValidation) {
-    res.status(402).json(errors.USERNOTEXISTS);
+  if (findUserInDb === null || !passwordValidation) {
+    return res.status(402).json(errors.USERNOTEXISTS);
   } else {
     const token = jwt.sign(userWithouPassword, SECRET || '', {
       expiresIn: '3d',

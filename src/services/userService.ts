@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { compare, hash } from 'bcrypt';
 import errors from '../errors/userErros';
@@ -7,7 +6,7 @@ const { User } = require('../../models');
 
 const { SECRET } = process.env;
 
-export const registerUser = async (user: any, res: Response) => {
+export const registerUser = async (user: any) => {
   const { email, name, password } = user;
   const findByEmail = await User.findOne({ where: { email } });
 

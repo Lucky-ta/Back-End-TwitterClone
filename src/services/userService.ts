@@ -12,37 +12,38 @@ export const registerUser = async (user: any, res: Response) => {
   const findByEmail = await User.findOne({ where: { email } });
 
   if (findByEmail !== null) {
-    return res.status(402).json(errors.EMAILALREADYEXIST);
-  } else {
-    const cryptPassword = await hash(password, 8);
-    await User.create({
-      name,
-      email,
-      password: cryptPassword,
-    });
-    return { message: 'Cadastrado com sucesso!' };
+    return errors.EMAILALREADYEXIST;
   }
+  const cryptPassword = await hash(password, 8);
+  await User.create({
+    name,
+    email,
+    password: cryptPassword,
+  });
+  return { message: 'Cadastrado com sucesso!' };
 };
 
-export const login = async (user: any, res: Response) => {
+export const login = async (user: any) => {
   const { email, password } = user;
-  const findUserInDb = await User.findOne({ where: { email } });
-  const passwordValidation = await compare(password, findUserInDb.dataValues.password);
+  const result = await User.findOne({ where: { email } });
 
-  const { password: passDb, ...userWithouPassword } = findUserInDb.dataValues;
+  if (result === null) {
+    return errors.USERNOTEXISTS;
+  }
+  const passwordValidation = await compare(password, result.dataValues.password);
 
-  if (findUserInDb === null || !passwordValidation) {
-    return res.status(402).json(errors.USERNOTEXISTS);
-  } else {
+  if (passwordValidation) {
+    const { password: passDb, ...userWithouPassword } = result.dataValues;
+
     const token = jwt.sign(userWithouPassword, SECRET || '', {
       expiresIn: '3d',
       algorithm: 'HS256',
     });
     return {
-      name: findUserInDb.name,
+      name: result.name,
       token,
     };
-  }
+  } return errors.INVALIDPASSWORD;
 };
 
 export const excludeUser = async (userId: number) => {

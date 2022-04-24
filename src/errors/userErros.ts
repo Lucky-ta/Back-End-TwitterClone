@@ -6,6 +6,7 @@ const EMAILALREADYEXIST = { message: 'E-mail já cadastrado' };
 const PASSWORDREQUIREDERROR = { message: 'Password is required' };
 const PASSWORDTYPEERROR = { message: 'password format is invalid' };
 const PASSWORDLENGTHERROR = { message: 'Password must have 6 or more characters' };
+const INVALIDPASSWORD = { message: 'Invalid Password' };
 
 const NAMEREQUIREDERROR = { message: 'Name is required' };
 const NAMETYPEERROR = { message: 'Name format is invalid' };
@@ -25,4 +26,5 @@ export default {
   NAMELENGTHERROR,
   EMAILALREADYEXIST,
   USERNOTEXISTS,
+  INVALIDPASSWORD,
 };

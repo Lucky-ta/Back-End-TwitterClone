@@ -20,41 +20,40 @@ const bcrypt_1 = require("bcrypt");
 const userErros_1 = __importDefault(require("../errors/userErros"));
 const { User } = require('../../models');
 const { SECRET } = process.env;
-const registerUser = async (user, res) => {
+const registerUser = async (user) => {
     const { email, name, password } = user;
     const findByEmail = await User.findOne({ where: { email } });
     if (findByEmail !== null) {
-        res.status(402).json(userErros_1.default.EMAILALREADYEXIST);
+        return userErros_1.default.EMAILALREADYEXIST;
     }
-    else {
-        const cryptPassword = await (0, bcrypt_1.hash)(password, 8);
-        await User.create({
-            name,
-            email,
-            password: cryptPassword,
-        });
-        return { message: 'Cadastrado com sucesso!' };
-    }
+    const cryptPassword = await (0, bcrypt_1.hash)(password, 8);
+    await User.create({
+        name,
+        email,
+        password: cryptPassword,
+    });
+    return { message: 'Cadastrado com sucesso!' };
 };
 exports.registerUser = registerUser;
-const login = async (user, res) => {
+const login = async (user) => {
     const { email, password } = user;
-    const findUserInDb = await User.findOne({ where: { email } });
-    const passwordValidation = await (0, bcrypt_1.compare)(password, findUserInDb.dataValues.password);
-    const _a = findUserInDb.dataValues, { password: passDb } = _a, userWithouPassword = __rest(_a, ["password"]);
-    if (!passwordValidation) {
-        res.status(402).json(userErros_1.default.USERNOTEXISTS);
+    const result = await User.findOne({ where: { email } });
+    if (result === null) {
+        return userErros_1.default.USERNOTEXISTS;
     }
-    else {
+    const passwordValidation = await (0, bcrypt_1.compare)(password, result.dataValues.password);
+    if (passwordValidation) {
+        const _a = result.dataValues, { password: passDb } = _a, userWithouPassword = __rest(_a, ["password"]);
         const token = jsonwebtoken_1.default.sign(userWithouPassword, SECRET || '', {
             expiresIn: '3d',
             algorithm: 'HS256',
         });
         return {
-            name: findUserInDb.name,
+            name: result.name,
             token,
         };
     }
+    return userErros_1.default.INVALIDPASSWORD;
 };
 exports.login = login;
 const excludeUser = async (userId) => {

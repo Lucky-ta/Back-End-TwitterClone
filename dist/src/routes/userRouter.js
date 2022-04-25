@@ -12,4 +12,5 @@ const userRouter = (0, express_1.Router)();
 exports.userRouter = userRouter;
 userRouter.post('/', UserMidllewares_1.default.emailValidation, UserMidllewares_1.default.passwordValidation, UserMidllewares_1.default.nameValidation, userControllers_2.default.registerNewUser);
 userRouter.post('/login', UserMidllewares_1.default.emailValidation, UserMidllewares_1.default.passwordValidation, userControllers_2.default.loginUser);
+userRouter.post('/validate', userControllers_2.default.validateUser);
 userRouter.delete('/:id', userControllers_1.default.excludeUser);

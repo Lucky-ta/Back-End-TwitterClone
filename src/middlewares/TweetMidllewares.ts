@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const { SECRET } = process.env;
 
-interface IUserRequest extends Request{
+export interface IUserRequest extends Request{
     data: any;
 }
 

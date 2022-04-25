@@ -20,6 +20,8 @@ userRouter.post(
   UserController.loginUser,
 );
 
+userRouter.post('/validate', UserController.validateUser);
+
 userRouter.delete('/:id', userControllers.excludeUser);
 
 export { userRouter };

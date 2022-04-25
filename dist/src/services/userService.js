@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.excludeUser = exports.login = exports.registerUser = void 0;
+exports.excludeUser = exports.validate = exports.login = exports.registerUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = require("bcrypt");
 const userErros_1 = __importDefault(require("../errors/userErros"));
@@ -45,17 +45,27 @@ const login = async (user) => {
     if (passwordValidation) {
         const _a = result.dataValues, { password: passDb } = _a, userWithouPassword = __rest(_a, ["password"]);
         const token = jsonwebtoken_1.default.sign(userWithouPassword, SECRET || '', {
-            expiresIn: '3d',
+            expiresIn: '2d',
             algorithm: 'HS256',
         });
         return {
-            name: result.name,
+            user: userWithouPassword,
             token,
         };
     }
     return userErros_1.default.INVALIDPASSWORD;
 };
 exports.login = login;
+const validate = (token) => {
+    try {
+        const data = jsonwebtoken_1.default.verify(token, SECRET || '');
+        return data;
+    }
+    catch (e) {
+        return e.message;
+    }
+};
+exports.validate = validate;
 const excludeUser = async (userId) => {
     await User.destroy({ where: { id: userId } });
 };

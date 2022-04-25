@@ -35,14 +35,23 @@ export const login = async (user: any) => {
     const { password: passDb, ...userWithouPassword } = result.dataValues;
 
     const token = jwt.sign(userWithouPassword, SECRET || '', {
-      expiresIn: '3d',
+      expiresIn: '2d',
       algorithm: 'HS256',
     });
     return {
-      name: result.name,
+      user: userWithouPassword,
       token,
     };
   } return errors.INVALIDPASSWORD;
+};
+
+export const validate = (token: any) => {
+  try {
+    const data = jwt.verify(token, SECRET || '');
+    return data;
+  } catch (e: any) {
+    return e.message;
+  }
 };
 
 export const excludeUser = async (userId: number) => {

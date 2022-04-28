@@ -7,8 +7,17 @@ class TweetController {
             try {
                 const { tweet } = req.body;
                 const user = req.data;
-                const result = await (0, tweetService_1.postTweet)(user, tweet);
-                return res.status(201).json(result);
+                await (0, tweetService_1.postTweet)(user, tweet);
+                return res.status(201).end();
+            }
+            catch (e) {
+                return res.status(500).json(e.message);
+            }
+        };
+        this.getTweet = async (_req, res) => {
+            try {
+                const result = await (0, tweetService_1.getTweetInDb)();
+                return res.status(200).json(result);
             }
             catch (e) {
                 return res.status(500).json(e.message);

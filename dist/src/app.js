@@ -10,7 +10,12 @@ const tweetRouter_1 = require("./routes/tweetRouter");
 const userRouter_1 = require("./routes/userRouter");
 const app = (0, express_1.default)();
 exports.app = app;
+const corsOptions = {
+    origin: '*',
+    methods: 'GET, PUT, POST, DELETE',
+    optionsSuccessStatus: 200,
+};
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)(corsOptions));
 app.use('/user', userRouter_1.userRouter);
 app.use('/tweet', tweetRouter_1.tweetRouter);

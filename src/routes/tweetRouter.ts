@@ -10,6 +10,8 @@ tweetRouter.post(
   tweetController.addPost,
 );
 
+tweetRouter.get('/', tweetController.getTweet);
+
 tweetRouter.delete('/:id', tweetController.excludePost);
 
 export { tweetRouter };

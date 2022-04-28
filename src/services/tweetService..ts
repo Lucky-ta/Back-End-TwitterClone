@@ -1,4 +1,4 @@
-const { User } = require('../../models')
+const { User } = require('../../models');
 const { Tweet } = require('../../models');
 
 export const postTweet = async (user: any, tweet: string) => {
@@ -7,11 +7,14 @@ export const postTweet = async (user: any, tweet: string) => {
 };
 
 export const getTweetInDb = async () => {
-  const results = await Tweet.findAll({ attributes: ['tweet'], include: [
-    { model: User, required: true, attributes: ['name'] }
-  ] });
+  const results = await Tweet.findAll({
+    attributes: ['tweet'],
+    include: [
+      { model: User, required: true, attributes: ['name'] },
+    ],
+  });
   return results;
-}
+};
 
 export const destroyTweet = async (tweetId: number) => {
   await Tweet.destroy({ where: { id: tweetId } });

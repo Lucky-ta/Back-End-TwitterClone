@@ -7,20 +7,20 @@ class TweetController {
       const { tweet } = req.body;
       const user = req.data;
       await postTweet(user, tweet);
-      return res.status(201).end()
+      return res.status(201).end();
     } catch (e: any) {
       return res.status(500).json(e.message);
     }
   };
 
-  getTweet = async(req: Request, res: Response) => {
+  getTweet = async (_req: Request, res: Response) => {
     try {
       const result = await getTweetInDb();
       return res.status(200).json(result);
     } catch (e: any) {
-      return res.status(500).json(e.message)
+      return res.status(500).json(e.message);
     }
-  }
+  };
 
   excludePost = async (req: Request, res: Response) => {
     try {

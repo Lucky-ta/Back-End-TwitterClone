@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import errors from '../errors/userErros'
 
 const { SECRET } = process.env;
 
@@ -21,6 +22,16 @@ const tokenValidation = async (req: IUserRequest, res: Response, next: NextFunct
   next();
 };
 
+const textValidation = async (req: Request, res: Response, next: NextFunction) => {
+  const { tweet } = req.body;
+
+  if (!tweet) return res.status(404).json(errors.INVALIDTWEET)
+  if (tweet === '') return res.status(404).json(errors.INVALIDTWEET);
+
+  next()
+}
+
 export default {
   tokenValidation,
+  textValidation,
 };

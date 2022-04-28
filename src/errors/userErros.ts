@@ -14,6 +14,8 @@ const NAMELENGTHERROR = { message: 'Name must have 3 or more characters' };
 
 const USERNOTEXISTS = { message: 'Usuario não registrado' };
 
+const INVALIDTWEET = { message: 'Digite algo antes' }
+
 export default {
   EMAILREQUIREDERROR,
   EMAILFORMATERROR,
@@ -27,4 +29,5 @@ export default {
   EMAILALREADYEXIST,
   USERNOTEXISTS,
   INVALIDPASSWORD,
+  INVALIDTWEET,
 };

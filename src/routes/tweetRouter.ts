@@ -7,6 +7,7 @@ const tweetRouter = Router();
 tweetRouter.post(
   '/',
   TweetMidllewares.tokenValidation,
+  TweetMidllewares.textValidation,
   tweetController.addPost,
 );
 

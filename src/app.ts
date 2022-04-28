@@ -5,15 +5,10 @@ import { userRouter } from './routes/userRouter';
 
 const app: Express = express();
 
-const corsOptions = {
-    origin: '*',
-    methods: 'GET, PUT, POST, DELETE',
-    optionsSuccessStatus: 200,
-};
+app.use(cors());
 
 app.use(express.json());
 
-app.use(cors(corsOptions));
 
 app.use('/user', userRouter);
 app.use('/tweet', tweetRouter);

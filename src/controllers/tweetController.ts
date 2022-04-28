@@ -4,10 +4,10 @@ import { destroyTweet, getTweetInDb, postTweet } from '../services/tweetService.
 class TweetController {
   addPost = async (req: Request, res: Response) => {
     try {
-      const {tweet} = req.body;
+      const { tweet } = req.body;
       const user = req.data;
       await postTweet(user, tweet);
-      return res.status(201).end();
+      return res.status(201).json(tweet);
     } catch (e: any) {
       return res.status(500).json(e.message);
     }

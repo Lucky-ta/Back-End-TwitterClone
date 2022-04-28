@@ -8,7 +8,7 @@ class TweetController {
                 const { tweet } = req.body;
                 const user = req.data;
                 await (0, tweetService_1.postTweet)(user, tweet);
-                return res.status(201).end();
+                return res.status(201).json(tweet);
             }
             catch (e) {
                 return res.status(500).json(e.message);

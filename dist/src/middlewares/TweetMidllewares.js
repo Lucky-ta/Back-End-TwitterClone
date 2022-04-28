@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const userErros_1 = __importDefault(require("../errors/userErros"));
 const { SECRET } = process.env;
 const tokenValidation = async (req, res, next) => {
     const { authorization: token } = req.headers;
@@ -18,6 +19,15 @@ const tokenValidation = async (req, res, next) => {
     }
     next();
 };
+const textValidation = async (req, res, next) => {
+    const { tweet } = req.body;
+    if (!tweet)
+        return res.status(404).json(userErros_1.default.INVALIDTWEET);
+    if (tweet === '')
+        return res.status(404).json(userErros_1.default.INVALIDTWEET);
+    next();
+};
 exports.default = {
     tokenValidation,
+    textValidation,
 };

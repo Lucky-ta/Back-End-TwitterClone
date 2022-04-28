@@ -9,6 +9,6 @@ const tweetController_1 = __importDefault(require("../controllers/tweetControlle
 const TweetMidllewares_1 = __importDefault(require("../middlewares/TweetMidllewares"));
 const tweetRouter = (0, express_1.Router)();
 exports.tweetRouter = tweetRouter;
-tweetRouter.post('/', TweetMidllewares_1.default.tokenValidation, tweetController_1.default.addPost);
+tweetRouter.post('/', TweetMidllewares_1.default.tokenValidation, TweetMidllewares_1.default.textValidation, tweetController_1.default.addPost);
 tweetRouter.get('/', tweetController_1.default.getTweet);
 tweetRouter.delete('/:id', tweetController_1.default.excludePost);
